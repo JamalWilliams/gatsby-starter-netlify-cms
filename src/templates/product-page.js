@@ -5,6 +5,7 @@ import { getImage } from "gatsby-plugin-image";
 import Layout from "../components/Layout";
 import Features from "../components/Features";
 import Testimonials from "../components/Testimonials";
+import Gallery from "../components/Gallery";
 import Pricing from "../components/Pricing";
 import PreviewCompatibleImage from "../components/PreviewCompatibleImage";
 import FullWidthImage from "../components/FullWidthImage";
@@ -17,6 +18,7 @@ export const ProductPageTemplate = ({
   description,
   intro,
   main,
+  images,
   testimonials,
   fullImage,
   pricing,
@@ -32,20 +34,16 @@ export const ProductPageTemplate = ({
           <div className="section">
             <div className="columns">
               <div className="column is-7 is-offset-1">
-                <h3 className="has-text-weight-semibold is-size-2">
-                  {heading}
-                </h3>
+                <h3 className="has-text-weight-semibold is-size-2">{heading}</h3>
                 <p>{description}</p>
               </div>
             </div>
             <div className="columns">
               <div className="column is-10 is-offset-1">
-                <Features gridItems={intro.blurbs} /> 
+                <Features gridItems={intro.blurbs} />
                 <div className="columns">
                   <div className="column is-7">
-                    <h3 className="has-text-weight-semibold is-size-3">
-                      {main.heading}
-                    </h3>
+                    <h3 className="has-text-weight-semibold is-size-3">{main.heading}</h3>
                     <p>{main.description}</p>
                   </div>
                 </div>
@@ -70,6 +68,7 @@ export const ProductPageTemplate = ({
                     </div>
                   </div>
                 </div>
+                <Gallery images={images} />
                 <Testimonials testimonials={testimonials} />
               </div>
             </div>
@@ -82,9 +81,7 @@ export const ProductPageTemplate = ({
           <div className="section">
             <div className="columns">
               <div className="column is-10 is-offset-1">
-                <h2 className="has-text-weight-semibold is-size-2">
-                  {pricing.heading}
-                </h2>
+                <h2 className="has-text-weight-semibold is-size-2">{pricing.heading}</h2>
                 <p className="is-size-5">{pricing.description}</p>
                 <Pricing data={pricing.plans} />
               </div>
@@ -111,6 +108,7 @@ ProductPageTemplate.propTypes = {
     image2: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     image3: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   }),
+  images: PropTypes.array,
   testimonials: PropTypes.array,
   fullImage: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   pricing: PropTypes.shape({
@@ -132,6 +130,7 @@ const ProductPage = ({ data }) => {
         description={frontmatter.description}
         intro={frontmatter.intro}
         main={frontmatter.main}
+        images={frontmatter.images}
         testimonials={frontmatter.testimonials}
         fullImage={frontmatter.full_image}
         pricing={frontmatter.pricing}
@@ -199,6 +198,14 @@ export const productPageQuery = graphql`
               childImageSharp {
                 gatsbyImageData(quality: 72, layout: FULL_WIDTH)
               }
+            }
+          }
+        }
+        images {
+          alt
+          image {
+            childImageSharp {
+              gatsbyImageData(width: 526, quality: 92, layout: CONSTRAINED)
             }
           }
         }
